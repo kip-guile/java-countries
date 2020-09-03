@@ -44,4 +44,17 @@ public class CountryController {
         List<Country> resList = findCountries(myList, c -> c.getName().charAt(0) == letter);
         return new ResponseEntity<>(resList, HttpStatus.OK);
     }
+
+    //http://localhost:2019/population/total
+    @GetMapping(value = "population/total", produces = {"application/json"})
+    public ResponseEntity<?> ListTotalPopulation() {
+        List<Country> myList = new ArrayList<>();
+        comrepos.findAll().iterator().forEachRemaining(myList::add);
+        long totalPopulation = 0;
+        for (Country c : myList) {
+            totalPopulation = totalPopulation + c.getPopulation();
+        }
+        System.out.println(("The total population is " + totalPopulation));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
