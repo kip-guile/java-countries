@@ -57,4 +57,22 @@ public class CountryController {
         System.out.println(("The total population is " + totalPopulation));
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    //http://localhost:2019/population/min
+    @GetMapping(value = "population/min", produces = {"application/json"})
+    public ResponseEntity<?> ListMinimumPopulation() {
+        List<Country> myList = new ArrayList<>();
+        comrepos.findAll().iterator().forEachRemaining(myList::add);
+        myList.sort((c1, c2) -> (int)(c1.getPopulation() - c2.getPopulation()));
+        return new ResponseEntity<>(myList.get(0), HttpStatus.OK);
+    }
+
+    //http://localhost:2019/population/max
+    @GetMapping(value = "population/max", produces = {"application/json"})
+    public ResponseEntity<?> ListMaximumPopulation() {
+        List<Country> myList = new ArrayList<>();
+        comrepos.findAll().iterator().forEachRemaining(myList::add);
+        myList.sort((c1, c2) -> (int)(c2.getPopulation() - c1.getPopulation()));
+        return new ResponseEntity<>(myList.get(0), HttpStatus.OK);
+    }
 }
